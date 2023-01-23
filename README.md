@@ -2,8 +2,8 @@
 
 The extension allows to generate Serilizable & Equatable classes from json file.
 
-\!\[Create json file\]\(images/step-1.png\)
-\!\[Generate dart class\]\(images/step-2.png\)
+- Create a .json file
+- Right click mouse and choose needed option
 
 ## Requirements
 

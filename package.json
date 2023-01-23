@@ -2,7 +2,7 @@
   "name": "dart-dto---entities-generator",
   "displayName": "Dart serializable & entity class generator",
   "description": "Extension for generating dto and entities from json",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.74.3"
   },
