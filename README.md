@@ -19,3 +19,7 @@ The extension allows to generate Serilizable & Equatable classes from json file.
 ### 1.0.0
 
 Initial release of the extension
+
+### 1.0.1
+
+Updated readme instructions
