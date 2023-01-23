@@ -1,0 +1,80 @@
+{
+  "name": "dart-dto---entities-generator",
+  "displayName": "Dart dto & entities generator",
+  "description": "Extension for generating dto and entities from json",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.3"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:dart-dto---entities-generator.generateDto",
+    "onCommand:dart-dto---entities-generator.generateEntity"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dart-dto---entities-generator.generateDto",
+        "title": "Generate dart serializable",
+        "category": "Generate DART DTO & ENTITY"
+      },
+      {
+        "command": "dart-dto---entities-generator.generateEntity",
+        "title": "Generate dart equatable",
+        "category": "Generate DART DTO & ENTITY"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .json",
+          "command": "dart-dto---entities-generator.generateDto",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .json",
+          "command": "dart-dto---entities-generator.generateEntity",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "dart-dto---entities-generator.generateDto",
+          "when": "false"
+        },
+        {
+          "command": "dart-dto---entities-generator.generateEntity",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/lodash": "^4.14.191",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
