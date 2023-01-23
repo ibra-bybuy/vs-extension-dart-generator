@@ -42,13 +42,7 @@ const formDto = (structuredJson: JsonField[], filename: string): string => {
   for (const field of structuredJson) {
     if (field.valueObject.length > 0) {
       const fieldFilename = formDataObjectName(field.key, filename);
-      const getFirstField = field.valueObject[0];
-
-      if (getFirstField.value === "object") {
-        str += formDto(getFirstField.valueObject, fieldFilename);
-      } else {
-        str += formDto(field.valueObject, fieldFilename);
-      }
+      str += formDto(field.valueObject, fieldFilename);
     }
   }
 

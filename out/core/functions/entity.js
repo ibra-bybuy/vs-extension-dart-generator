@@ -8,6 +8,7 @@ const jsonToDartEntity = (data, filename) => {
     const filenamCC = (0, str_1.fileNamePascalCase)(filename);
     const structuredJson = (0, json_1.structureJson)(data);
     const entitiesFilename = `${filenamCC}Entities`;
+    console.log(structuredJson);
     return `
   import 'package:equatable/equatable.dart';
   ${formEntities(structuredJson, entitiesFilename)}
@@ -34,13 +35,7 @@ const formEntities = (structuredJson, filename) => {
     for (const field of structuredJson) {
         if (field.valueObject.length > 0) {
             const fieldFilename = (0, dart_1.formDataObjectName)(field.key, filename);
-            const getFirstField = field.valueObject[0];
-            if (getFirstField.value === "object") {
-                str += formEntities(getFirstField.valueObject, fieldFilename);
-            }
-            else {
-                str += formEntities(field.valueObject, fieldFilename);
-            }
+            str += formEntities(field.valueObject, fieldFilename);
         }
     }
     return str;

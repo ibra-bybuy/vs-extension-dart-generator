@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFieldType = exports.structureJson = exports.toJson = void 0;
+const str_1 = require("./str");
 const toJson = (data) => {
     try {
         return JSON.parse(data);
@@ -10,11 +11,11 @@ const toJson = (data) => {
     }
 };
 exports.toJson = toJson;
-const structureJson = (data) => {
+const structureJson = (data, previousName) => {
     const jsonFields = [];
     for (const key in data) {
         if (data.hasOwnProperty(key)) {
-            const keyName = key;
+            let keyName = key;
             const value = data[key];
             const fieldType = (0, exports.getFieldType)(value);
             let subFields = [];
@@ -22,8 +23,19 @@ const structureJson = (data) => {
             if (Array.isArray(value)) {
                 isArray = true;
             }
+            if ((0, str_1.isNumeric)(keyName)) {
+                keyName = previousName ?? (previousName = keyName);
+            }
             if (fieldType === "object") {
-                subFields = (0, exports.structureJson)(value);
+                if (isArray) {
+                    const getFields = (0, exports.structureJson)(value, keyName);
+                    if (getFields.length > 0) {
+                        subFields = getFields[0].valueObject;
+                    }
+                }
+                else {
+                    subFields = (0, exports.structureJson)(value, keyName);
+                }
             }
             jsonFields.push({
                 key: keyName,

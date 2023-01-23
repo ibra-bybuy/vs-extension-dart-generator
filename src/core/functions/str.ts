@@ -9,3 +9,10 @@ export const fileNamePascalCase = (str: string): string => {
 export const firstLetterToUppercase = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.substring(1);
 };
+
+export const isNumeric = (str: string): boolean => {
+  if (typeof str !== "string") {
+    return false;
+  }
+  return !isNaN(parseFloat(str));
+};

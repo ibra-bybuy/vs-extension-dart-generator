@@ -1,3 +1,5 @@
+import { isNumeric } from "./str";
+
 export type JsonField = {
   key: string;
   isArray: boolean;
@@ -13,11 +15,14 @@ export const toJson = (data: string): any => {
   }
 };
 
-export const structureJson = (data: any): JsonField[] => {
+export const structureJson = (
+  data: any,
+  previousName?: string
+): JsonField[] => {
   const jsonFields: JsonField[] = [];
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      const keyName = key;
+      let keyName = key;
       const value = data[key];
       const fieldType = getFieldType(value);
       let subFields: JsonField[] = [];
@@ -27,8 +32,19 @@ export const structureJson = (data: any): JsonField[] => {
         isArray = true;
       }
 
+      if (isNumeric(keyName)) {
+        keyName = previousName ??= keyName;
+      }
+
       if (fieldType === "object") {
-        subFields = structureJson(value);
+        if (isArray) {
+          const getFields = structureJson(value, keyName);
+          if (getFields.length > 0) {
+            subFields = getFields[0].valueObject;
+          }
+        } else {
+          subFields = structureJson(value, keyName);
+        }
       }
 
       jsonFields.push({
