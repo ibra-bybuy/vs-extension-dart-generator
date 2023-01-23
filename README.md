@@ -1,13 +1,9 @@
-# dart-dto---entities-generator README
-
-This is the README for your extension "dart-dto---entities-generator". After writing up a brief description, we recommend including the following sections.
-
 ## Features
 
 The extension allows to generate Serilizable & Equatable classes from json file.
 
-\!\[Create json file\]\(images/step-1.png\)
-\!\[Generate dart class\]\(images/step-2.png\)
+![Create JSON FILE](images/step-1.png "Create JSON file")
+![GENERATE DART CLASS](images/step-2.png "Generate Dart class")
 
 ## Requirements
 
