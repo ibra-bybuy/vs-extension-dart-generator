@@ -31,7 +31,10 @@ function activate(context) {
      * GENERATING DTO
      */
     let disposableDto = vscode.commands.registerCommand("dart-dto---entities-generator.generateDto", async (data) => {
-        const path = data.path;
+        var path = data.path;
+        if (path.includes(":/")) {
+            path = path.substring(1);
+        }
         const jsonData = await getJson(path);
         if (typeof jsonData === "string") {
             vscode.window.showErrorMessage(jsonData);

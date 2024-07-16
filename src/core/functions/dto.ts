@@ -24,8 +24,8 @@ const formDto = (structuredJson: JsonField[], filename: string): string => {
       @JsonSerializable()
       class ${filename} {
         ${finalFields(structuredJson, filename, (f) => {
-          return `@JsonKey(name: '${f.key}')`;
-        })}
+    return `@JsonKey(name: '${f.key}')`;
+  })}
         const ${filename}({
             ${constructorFields(structuredJson, filename)}
         });

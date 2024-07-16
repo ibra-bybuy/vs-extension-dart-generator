@@ -50,8 +50,14 @@ export function activate(context: vscode.ExtensionContext) {
   let disposableDto = vscode.commands.registerCommand(
     "dart-dto---entities-generator.generateDto",
     async (data: File) => {
-      const path = data.path;
+      var path = data.path;
+      if (path.includes(":/")) {
+        path = path.substring(1);
+      }
+
       const jsonData = await getJson(path);
+
+
       if (typeof jsonData === "string") {
         vscode.window.showErrorMessage(jsonData);
         return;
@@ -79,6 +85,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 const getJson = async (path: string): Promise<any> => {
   const fileData = await readFile(path);
+
+
   if (!fileData) {
     return "File does not contain data";
   }
@@ -90,4 +98,4 @@ const getJson = async (path: string): Promise<any> => {
 };
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
