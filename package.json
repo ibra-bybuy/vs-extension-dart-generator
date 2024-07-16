@@ -1,6 +1,6 @@
 {
-  "name": "dart-dto---entities-generator",
-  "displayName": "Dart serializable & entity class generator",
+  "name": "dart-dto-generator-entity",
+  "displayName": "Dart serializable & entity class generator v2",
   "description": "Extension for generating dto and entities from json",
   "version": "0.0.2",
   "engines": {
@@ -10,20 +10,20 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:dart-dto---entities-generator.generateDto",
-    "onCommand:dart-dto---entities-generator.generateEntity"
+    "onCommand:dart-dto-generator-entity.generateDto",
+    "onCommand:dart-dto-generator-entity.generateEntity"
   ],
-  "publisher": "IbraDev",
+  "publisher": "IBRACHEKAEV",
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "dart-dto---entities-generator.generateDto",
+        "command": "dart-dto-generator-entity.generateDto",
         "title": "Generate dart serializable",
         "category": "Generate DART DTO & ENTITY"
       },
       {
-        "command": "dart-dto---entities-generator.generateEntity",
+        "command": "dart-dto-generator-entity.generateEntity",
         "title": "Generate dart equatable",
         "category": "Generate DART DTO & ENTITY"
       }
@@ -32,22 +32,22 @@
       "explorer/context": [
         {
           "when": "resourceExtname == .json",
-          "command": "dart-dto---entities-generator.generateDto",
+          "command": "dart-dto-generator-entity.generateDto",
           "group": "navigation"
         },
         {
           "when": "resourceExtname == .json",
-          "command": "dart-dto---entities-generator.generateEntity",
+          "command": "dart-dto-generator-entity.generateEntity",
           "group": "navigation"
         }
       ],
       "commandPalette": [
         {
-          "command": "dart-dto---entities-generator.generateDto",
+          "command": "dart-dto-generator-entity.generateDto",
           "when": "false"
         },
         {
-          "command": "dart-dto---entities-generator.generateEntity",
+          "command": "dart-dto-generator-entity.generateEntity",
           "when": "false"
         }
       ]

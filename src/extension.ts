@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
    * GENERATING ENTITY
    */
   let disposableEntity = vscode.commands.registerCommand(
-    "dart-dto---entities-generator.generateEntity",
+    "dart-dto-generator-entity.generateEntity",
     async (data: File) => {
       const path = data.path;
       const jsonData = await getJson(path);
@@ -48,7 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
    * GENERATING DTO
    */
   let disposableDto = vscode.commands.registerCommand(
-    "dart-dto---entities-generator.generateDto",
+    "dart-dto-generator-entity.generateDto",
     async (data: File) => {
       var path = data.path;
       if (path.includes(":/")) {

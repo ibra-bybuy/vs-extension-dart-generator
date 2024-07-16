@@ -13,7 +13,7 @@ function activate(context) {
     /**
      * GENERATING ENTITY
      */
-    let disposableEntity = vscode.commands.registerCommand("dart-dto---entities-generator.generateEntity", async (data) => {
+    let disposableEntity = vscode.commands.registerCommand("dart-dto-generator-entity.generateEntity", async (data) => {
         const path = data.path;
         const jsonData = await getJson(path);
         if (typeof jsonData === "string") {
@@ -30,7 +30,7 @@ function activate(context) {
     /**
      * GENERATING DTO
      */
-    let disposableDto = vscode.commands.registerCommand("dart-dto---entities-generator.generateDto", async (data) => {
+    let disposableDto = vscode.commands.registerCommand("dart-dto-generator-entity.generateDto", async (data) => {
         var path = data.path;
         if (path.includes(":/")) {
             path = path.substring(1);
