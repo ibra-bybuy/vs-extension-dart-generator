@@ -57,7 +57,7 @@ const getType = (field, fileName) => {
         type = "String";
     }
     else if (field.value === "object") {
-        type = (0, exports.formDataObjectName)(field.key, fileName);
+        type = (0, exports.formDataObjectName)(field.name, fileName);
     }
     if (field.isArray && type.length > 0) {
         type = `List<${type}>`;
@@ -89,7 +89,7 @@ const constructorFields = (structuredJson, fileName) => {
         if (field.isArray) {
             defaultValue = `const []`;
         }
-        fields.push(`this.${(0, str_1.pascalCase)(field.key)} = ${defaultValue}`);
+        fields.push(`this.${((0, str_1.pascalCase)(field.key))} = ${defaultValue}`);
     }
     const str = fields.join(",\n");
     return fields.length > 0 ? `${str},` : str;
@@ -109,7 +109,7 @@ const constructorDefaultValue = (field, fileName) => {
         return '""';
     }
     else if (field.value === "object") {
-        return `const ${(0, exports.formDataObjectName)(field.key, fileName)}()`;
+        return `const ${(0, exports.formDataObjectName)(field.name, fileName)}()`;
     }
     return "";
 };

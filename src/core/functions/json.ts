@@ -1,7 +1,8 @@
-import { isNumeric } from "./str";
+import { isNumeric, firstLetterToUppercase } from "./str";
 
 export type JsonField = {
   key: string;
+  name: string;
   isArray: boolean;
   value: "string" | "int" | "double" | "bool" | "object" | "undefined";
   valueObject: JsonField[];
@@ -25,6 +26,10 @@ export const structureJson = (
       let keyName = key;
       const value = data[key];
       const fieldType = getFieldType(value);
+      if (fieldType == "undefined") {
+        continue;
+      }
+
       let subFields: JsonField[] = [];
       let isArray = false;
 
@@ -47,8 +52,24 @@ export const structureJson = (
         }
       }
 
+      const nameLetters: string[] = [];
+
+      for (let i = 0; i < keyName.length; i++) {
+        const currentLetter = keyName[i]
+        if (currentLetter == "_") {
+          if (i != (keyName.length - 1)) {
+            nameLetters.push(firstLetterToUppercase(keyName[i + 1]))
+          }
+          i++;
+          continue;
+        }
+
+        nameLetters.push(currentLetter)
+      }
+
       jsonFields.push({
         key: keyName,
+        name: nameLetters.join(""),
         isArray: isArray,
         value: fieldType,
         valueObject: subFields,
@@ -79,9 +100,10 @@ export const getFieldType = (
     return "int";
   } else if (valueType === "boolean") {
     return "bool";
-  } else if (valueType === "object") {
+  } else if (valueType === "object" && value != null) {
     return "object";
   }
+
 
   return "undefined";
 };

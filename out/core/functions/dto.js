@@ -37,7 +37,7 @@ const formDto = (structuredJson, filename) => {
       `;
     for (const field of structuredJson) {
         if (field.valueObject.length > 0) {
-            const fieldFilename = (0, dart_1.formDataObjectName)(field.key, filename);
+            const fieldFilename = (0, dart_1.formDataObjectName)(field.name, filename);
             str += formDto(field.valueObject, fieldFilename);
         }
     }

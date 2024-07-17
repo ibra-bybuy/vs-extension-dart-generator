@@ -18,6 +18,9 @@ const structureJson = (data, previousName) => {
             let keyName = key;
             const value = data[key];
             const fieldType = (0, exports.getFieldType)(value);
+            if (fieldType == "undefined") {
+                continue;
+            }
             let subFields = [];
             let isArray = false;
             if (Array.isArray(value)) {
@@ -37,8 +40,21 @@ const structureJson = (data, previousName) => {
                     subFields = (0, exports.structureJson)(value, keyName);
                 }
             }
+            const nameLetters = [];
+            for (let i = 0; i < keyName.length; i++) {
+                const currentLetter = keyName[i];
+                if (currentLetter == "_") {
+                    if (i != (keyName.length - 1)) {
+                        nameLetters.push((0, str_1.firstLetterToUppercase)(keyName[i + 1]));
+                    }
+                    i++;
+                    continue;
+                }
+                nameLetters.push(currentLetter);
+            }
             jsonFields.push({
                 key: keyName,
+                name: nameLetters.join(""),
                 isArray: isArray,
                 value: fieldType,
                 valueObject: subFields,
@@ -67,7 +83,7 @@ const getFieldType = (value) => {
     else if (valueType === "boolean") {
         return "bool";
     }
-    else if (valueType === "object") {
+    else if (valueType === "object" && value != null) {
         return "object";
     }
     return "undefined";

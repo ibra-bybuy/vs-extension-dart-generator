@@ -60,7 +60,7 @@ export const getType = (field: JsonField, fileName: string): string => {
   } else if (field.value === "string") {
     type = "String";
   } else if (field.value === "object") {
-    type = formDataObjectName(field.key, fileName);
+    type = formDataObjectName(field.name, fileName);
   }
 
   if (field.isArray && type.length > 0) {
@@ -107,7 +107,7 @@ export const constructorFields = (
       defaultValue = `const []`;
     }
 
-    fields.push(`this.${pascalCase(field.key)} = ${defaultValue}`);
+    fields.push(`this.${(pascalCase(field.key))} = ${defaultValue}`);
   }
 
   const str = fields.join(",\n");
@@ -128,7 +128,7 @@ const constructorDefaultValue = (
   } else if (field.value === "string") {
     return '""';
   } else if (field.value === "object") {
-    return `const ${formDataObjectName(field.key, fileName)}()`;
+    return `const ${formDataObjectName(field.name, fileName)}()`;
   }
 
   return "";
