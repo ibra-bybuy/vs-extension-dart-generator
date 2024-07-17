@@ -27,3 +27,7 @@ Updated readme instructions
 ### 2.0.0
 
 GETTERS AND SETTERS
+
+### 2.0.1
+
+Исправил проблему с наименованием параметров
