@@ -9,10 +9,6 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:dart-dto-generator-entity.generateDto",
-    "onCommand:dart-dto-generator-entity.generateEntity"
-  ],
   "publisher": "IBRACHEKAEV",
   "main": "./out/extension.js",
   "contributes": {
@@ -26,9 +22,24 @@
         "command": "dart-dto-generator-entity.generateEntity",
         "title": "Generate dart equatable",
         "category": "Generate DART DTO & ENTITY"
+      },
+      {
+        "command": "dart-dto-generator-entity.gettersAndSetters",
+        "title": "Generate getters and setters",
+        "category": "Generate GETTERS & SETTERS"
+      },
+      {
+        "command": "dart-dto-generator-entity.generateGetterAndSetter",
+        "title": "Generate Getter And Setter"
       }
     ],
     "menus": {
+      "editor/context": [
+        {
+          "command": "dart-dto-generator-entity.generateGetterAndSetter",
+          "group": "navigation"
+        }
+      ],
       "explorer/context": [
         {
           "when": "resourceExtname == .json",

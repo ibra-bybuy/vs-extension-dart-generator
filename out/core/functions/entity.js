@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFieldKeys = exports.jsonToDartEntity = void 0;
+exports.generateGetterAndSetter = exports.getFieldKeys = exports.jsonToDartEntity = void 0;
 const dart_1 = require("./dart");
 const json_1 = require("./json");
 const str_1 = require("./str");
@@ -44,4 +44,32 @@ const getFieldKeys = (fields) => {
     return fields.map((e) => (0, str_1.pascalCase)(e.key));
 };
 exports.getFieldKeys = getFieldKeys;
+function generateGetterAndSetter(prop, activatedText, arr) {
+    let s;
+    let setter;
+    let type = prop.split(" ").splice(0)[0];
+    if (prop.includes("=")) {
+        prop = prop.substring(0, prop.lastIndexOf("=")).trim();
+    }
+    let variableName = prop.split(" ").slice(-1);
+    let varUpprName = variableName.toString().charAt(0).toUpperCase() + variableName.toString().slice(1);
+    if (prop.includes("_")) {
+        let varNewName = (0, str_1.firstLetterToUppercase)(variableName.toString().slice(1));
+        s = `\n ${type} get get${varNewName} => ${variableName};`;
+        setter = `\n set set${varNewName}(${type} value) => ${variableName} = value;`;
+    }
+    else {
+        s = `\n ${type} get get${varUpprName} => ${variableName};`;
+        setter = `\n set set${varUpprName}(${type} ${variableName}) => ${variableName} = ${variableName};`;
+    }
+    if (activatedText.includes(`=> ${variableName}`)) {
+        throw Error('Setter and Getter already created.');
+    }
+    arr.push(s, setter);
+    let sets = new Set(arr);
+    let it = sets.values();
+    arr = Array.from(it);
+    return arr;
+}
+exports.generateGetterAndSetter = generateGetterAndSetter;
 //# sourceMappingURL=entity.js.map

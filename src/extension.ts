@@ -8,7 +8,7 @@ import {
   saveFile,
 } from "./core/functions/file";
 import { toJson } from "./core/functions/json";
-import { jsonToDartEntity } from "./core/functions/entity";
+import { jsonToDartEntity, generateGetterAndSetter } from "./core/functions/entity";
 import { exec } from "child_process";
 import { jsonToDartDto } from "./core/functions/dto";
 
@@ -26,7 +26,10 @@ export function activate(context: vscode.ExtensionContext) {
   let disposableEntity = vscode.commands.registerCommand(
     "dart-dto-generator-entity.generateEntity",
     async (data: File) => {
-      const path = data.path;
+      var path = data.path;
+      if (path.includes(":/")) {
+        path = path.substring(1);
+      }
       const jsonData = await getJson(path);
       if (typeof jsonData === "string") {
         vscode.window.showErrorMessage(jsonData);
@@ -79,8 +82,45 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  /**
+  * GENERATING DTO
+  */
+  let disposableGettersAndSetters = vscode.commands.registerCommand('dart-dto-generator-entity.generateGetterAndSetter', () => {
+    var editor = vscode.window.activeTextEditor;
+    if (!editor)
+      return;
+
+    let arr: string[] = [];
+    const selection = editor.selection;
+    var text = editor.document.getText(selection);
+    if (text.length < 1) {
+      vscode.window.showErrorMessage('No selected properties.');
+      return;
+    }
+
+    let properties = text.split(/\r?\n/).filter(x => x.length > 2).map(x => x.replace(';', ''));
+    let generatedMethods: string[] = [];
+    for (let p of properties) {
+      try {
+        generatedMethods = generateGetterAndSetter(p, vscode.window.activeTextEditor?.document.getText() ?? "", arr);
+      } catch (e) {
+        vscode.window.showErrorMessage(`${e}`);
+      }
+    }
+
+    editor.edit(
+      edit => editor?.selections.forEach(
+        selection => {
+          edit.insert(selection.end, generatedMethods.join("\n"));
+          arr = [];
+        }
+      )
+    );
+  });
+
   context.subscriptions.push(disposableEntity);
   context.subscriptions.push(disposableDto);
+  context.subscriptions.push(disposableGettersAndSetters);
 }
 
 const getJson = async (path: string): Promise<any> => {

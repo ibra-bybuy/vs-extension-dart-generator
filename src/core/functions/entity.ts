@@ -53,3 +53,32 @@ const formEntities = (
 export const getFieldKeys = (fields: JsonField[]): string[] => {
   return fields.map((e) => pascalCase(e.key));
 };
+
+export function generateGetterAndSetter(prop: String, activatedText: String, arr: string[]): string[] {
+  let s;
+  let setter;
+
+  let type = prop.split(" ").splice(0)[0];
+  if (prop.includes("=")) {
+    prop = prop.substring(0, prop.lastIndexOf("=")).trim()
+  }
+  let variableName = prop.split(" ").slice(-1);
+  let varUpprName = variableName.toString().charAt(0).toUpperCase() + variableName.toString().slice(1);
+  if (prop.includes("_")) {
+    let varNewName = firstLetterToUppercase(variableName.toString().slice(1));
+    s = `\n ${type} get get${varNewName} => ${variableName};`;
+    setter = `\n set set${varNewName}(${type} value) => ${variableName} = value;`;
+  }
+  else {
+    s = `\n ${type} get get${varUpprName} => ${variableName};`;
+    setter = `\n set set${varUpprName}(${type} ${variableName}) => ${variableName} = ${variableName};`;
+  }
+  if (activatedText.includes(`=> ${variableName}`)) {
+    throw Error('Setter and Getter already created.');
+  }
+  arr.push(s, setter);
+  let sets = new Set(arr);
+  let it = sets.values();
+  arr = Array.from(it);
+  return arr;
+}
